@@ -9,7 +9,12 @@
 	
 # Implementation Details
 * Setup Node.js Webpack environmment
-* Create the email template
+* Create the email template. It should contain:
+	- Greet the user (the sender)
+	- Tell the user who they are giving to (the receiver)
+	- Show a link to see the receiver's wish list
+	- Show a link to fill in their own wish list
+	- Additional details/notes on minimum gift value, rules etc	
 * Module to take in an array of users and return reciever/recipient pairs (hereby known as _result_)
 	- Save result into DB as reciever/recipient pairs, with date of generation, event name/id (i.e. Christmas 2017)
 * Module to take in _result_ and email template and send out emails
