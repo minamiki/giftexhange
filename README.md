@@ -6,6 +6,25 @@
 	- Who to gift
 	- Link to see the recipients' wishlist
 	- Link to fill in your own wishlist
+	
+# Implementation Details
+* Setup Node.js Webpack environmment
+* Create the email template
+* Module to take in an array of users and return reciever/recipient pairs (hereby known as _result_)
+	- Save result into DB as reciever/recipient pairs, with date of generation, event name/id (i.e. Christmas 2017)
+* Module to take in _result_ and email template and send out emails
+	- Email to recipient should contain the target reciever (Who they are going to gift to)
+	- A link to a permanent page (hashed id) which shows the recipient their reciever's wish list (hereby known as _wishlist_)
+	- _wishlist_ which has a form for the recipient to list their wish list (form with open end text fields?)
+* _wishlist_ webpage
+	- Recipient view (sender):
+		- Read only view of wishlist
+		- [BONUS] Comments area to post an anoynomous comment on the wishlist
+	- Reciever view (receiver):
+		- Form field with text fields (3 default fields? with the option to add more)
+		- [BONUS] Comments area to read and reply to comments from sender
+* [BONUS] Administartion webpage
+	- Dashboard view to checks if recievers have populated their wishlist (and item count? haha)
 
 # Bonus features
 * Database to store/track reciever/recipient
