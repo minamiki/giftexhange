@@ -26,7 +26,26 @@ module.exports = {
 			{ test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader' },
 			{ test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=application/octet-stream" },
 			{ test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url-loader?limit=10000&mimetype=image/svg+xml" },
-			{ test: /\.css$/, loaders: 'style-loader!css-loader'}
+			{ test: /\.css$/, loaders: 'style-loader!css-loader'},
+			{ test: /\.less$/, loader: "style-loader!css-loader!less-loader" },
+			{ test: /\.(scss)$/, use: [{
+					loader: 'style-loader', // inject CSS to page
+				}, {
+					loader: 'css-loader', // translates CSS into CommonJS modules
+				}, {
+					loader: 'postcss-loader', // Run post css actions
+					options: {
+						plugins: function () { // post css plugins, can be exported to postcss.config.js
+							return [
+								require('precss'),
+								require('autoprefixer')
+							];
+						}
+					}
+				}, {
+					loader: 'sass-loader' // compiles SASS to CSS
+				}]
+			}
 		]
 	},
 	plugins: [
