@@ -8,20 +8,20 @@
 	- Link to fill in your own wishlist
 	
 # Implementation Details
-* Setup Node.js Webpack environmment
-* Create the email template. It should contain:
+* Setup Node.js Webpack environmment @myohansa
+* Create the email template. It should contain: @belissac
 	- Greet the user (the sender)
 	- Tell the user who they are giving to (the receiver)
 	- Show a link to see the receiver's wish list
 	- Show a link to fill in their own wish list
 	- Additional details/notes on minimum gift value, rules etc	
-* Module to take in an array of users and return reciever/recipient pairs (hereby known as _result_)
+* Module to take in an array of users and return reciever/recipient pairs (hereby known as _result_) @myohansa
 	- Save result into DB as reciever/recipient pairs, with date of generation, event name/id (i.e. Christmas 2017)
-* Module to take in _result_ and email template and send out emails
+* Module to take in _result_ and email template and send out emails @yitchun
 	- Email to recipient should contain the target reciever (Who they are going to gift to)
 	- A link to a permanent page (hashed id) which shows the recipient their reciever's wish list (hereby known as _wishlist_)
 	- _wishlist_ which has a form for the recipient to list their wish list (form with open end text fields?)
-* _wishlist_ webpage
+* _wishlist_ webpage @peylun
 	- Recipient view (sender):
 		- Read only view of wishlist
 		- [BONUS] Comments area to post an anoynomous comment on the wishlist
