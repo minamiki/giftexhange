@@ -1,3 +1,4 @@
+"use strict"
 const path = require('path');
 
 const webpack = require('webpack');
@@ -8,13 +9,55 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 	inject: 'body'
 })
 
+/**
+ * List of URL path
+ **/
+const pages = [
+	'user',
+	'event',
+	'result',
+	'wishlist'
+]
+
+/* Base Path*/
+const basePath = './client/'
+
+let entries = {}
+let htmlWebpackPlugins = []
+
+pages.forEach((page) => {
+	/* Create entries */
+	entries[page] = [`${basePath}${page}.js`]
+	/** This will create the page
+	 * `filename` is the generated file 
+	 * `inject` is the DOM in the template where the content will be injected
+ 	 * `template` is the template for the generated file, can be .ejs, .html, .hbs, etc.
+	 **/
+	htmlWebpackPlugins.push(
+		new HtmlWebpackPlugin({
+			title: `${page} page`,
+			inject: 'body',
+			filename: `${page}/index.html`,
+			template: `${basePath}index.html`
+		})
+	)
+	htmlWebpackPlugins.push(new webpack.ProvidePlugin({
+		$: 'jquery',
+		jQuery: 'jquery',
+		'window.jquery': 'jquery',
+		Popper: ['popper.js', 'default'],
+		Util: 'exports-loader?Util!bootstrap/js/dist/util',
+		Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown'
+	}))
+
+
+})
+
 module.exports = {
-	entry: {
-		app: ["./client/index.js"]
-	},
+	entry: entries,
 	output: {
 		path: path.resolve(__dirname, "build"),
-		filename: "bundle.js"
+		filename: "[name].bundle.js"
 	},
 	resolve: {
 		extensions: ['.js', '.jsx']
@@ -48,16 +91,6 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [
-		HtmlWebpackPluginConfig,
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery',
-			'window.jquery': 'jquery',
-			Popper: ['popper.js', 'default'],
-			Util: 'exports-loader?Util!bootstrap/js/dist/util',
-			Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown'
-		})
-	]
+	plugins: htmlWebpackPlugins
 }
 
