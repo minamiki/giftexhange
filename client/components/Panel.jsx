@@ -10,7 +10,7 @@ export default class Panel extends BaseComponent {
 	render() {
 		return(
 			<div {...this.props} className={this.buildClassName()}>
-				{this.props.children}}
+				{this.props.children}
 			</div>
 		)
 	}
