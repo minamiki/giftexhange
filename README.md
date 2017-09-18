@@ -31,12 +31,12 @@
 * [BONUS] Administartion webpage
 	- Dashboard view to checks if recievers have populated their wishlist (and item count? haha)
 
-# Database details
+# Database schema
 * User table (id, fullName, email)
 * Event table (id, eventName, userIds?)
 * Result table (id, sender, receiver, eventId, timestamp, emailSent?)
 * Wishlist table (id, userId, eventId, lastUpdate)
-* Wishlist Items (id, wishlistId, itemName, itemDescription, itemImageLink?)
+* Wishlist Items (id, wishlistId, name, description, imageLink, urlLink)
 
 # Bonus features
 * Database to store/track reciever/recipient
