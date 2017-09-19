@@ -1,6 +1,6 @@
-import BaseConnection from './baseConnection'
+const BaseConnection = require('./baseConnection')
 
-export default class User extends BaseConnection {
+module.exports = class User extends BaseConnection {
 	constructor(connectionPool) {
 		super(connectionPool)
 		this.selectQuery = 'SELECT * FROM users'

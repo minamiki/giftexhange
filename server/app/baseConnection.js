@@ -1,4 +1,4 @@
-export default class BaseConnection {
+module.exports = class BaseConnection {
 	constructor(connectionPool) {
 		this.connectionPool = connectionPool
 		this.selectQuery = ''

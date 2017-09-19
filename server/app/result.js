@@ -1,6 +1,6 @@
-import BaseConnection from './baseConnection'
+const BaseConnection = require('./baseConnection')
 
-export default class Event extends BaseConnection {
+module.exports = class Event extends BaseConnection {
 	constructor(connectionPool) {
 		super(connectionPool)
 		this.selectQuery = 'SELECT * FROM result'

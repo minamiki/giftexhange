@@ -1,8 +1,8 @@
-import User from './user'
-import Event from './event'
-import Result from './result'
+const User = require('./user')
+const Event = require('./event')
+const Result = require('./result')
 
-export default class Generator {
+module.exports = class Generator {
 	generateResult(eventId, connectionPool) {
 		let UserQuery = new User(connectionPool)
 		let EventQuery = new Event(connectionPool)
