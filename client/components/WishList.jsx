@@ -19,8 +19,10 @@ export default class WishList extends React.Component {
 			wishDetails.id = this.state.wishlist.length + 1
 			this.state.wishlist.push(wishDetails)
 		}
-		this.setState({
-			wishlist: this.state.wishlist
+		this.props.saveWishList(this.state.wishlist, (wishlist) => {
+			this.setState({
+				wishlist: wishlist
+			})
 		})
 	}
 	render() {

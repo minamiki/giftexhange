@@ -40,6 +40,7 @@
 {
     "list: [
         {
+            "id": 1,
             "name": "Ipad",
             "description": "Lasted Ipad Air from Apple",
             "imageLink": "https://images.apple.com/v/ipad-pro/l/images/specs/10_5_in_ipad_pro_small.jpg",
@@ -60,12 +61,14 @@
     "userName": "Pey Lun",
     "list: [
         {
+            "id": 1,
             "name": "Ipad",
             "description": "Lasted Ipad Air from Apple",
             "imageLink": "https://images.apple.com/v/ipad-pro/l/images/specs/10_5_in_ipad_pro_small.jpg",
             "urlLink": "https://www.apple.com/sg/shop/buy-ipad/ipad-pro"
         },
         {
+            "id": 2,
             "name": "iPhone",
             "description": "iPhone X",
             "imageLink": "https://images.apple.com/v/iphone/home/w/images/home/iphone_x_small.jpg"

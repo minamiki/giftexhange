@@ -45,6 +45,10 @@ module.exports = function (server, connectionPool) {
   // Save wishlist
   server.post('wishlist/:idHash', (req, res, next) => {
     let idHash = req.params.idHash
+    let result = {
+      list: []
+    }
+    res.send(JSON.parse(JSON.stringify(result)))
   })
 
   // Read wishlist
