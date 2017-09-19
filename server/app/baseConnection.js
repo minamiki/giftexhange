@@ -1,3 +1,5 @@
+const Promise = require('promise')
+
 module.exports = class BaseConnection {
 	constructor(connectionPool) {
 		this.connectionPool = connectionPool
@@ -5,13 +7,21 @@ module.exports = class BaseConnection {
 	}
 	get() {
 		if(this.selectQuery !== '') {
-			this.query(this.selectQuery)
+			return this.query(this.selectQuery)
 		}
 	}
 	query(queryString) {
-		this.connectionPool.query(queryString, function (error, results, fields) {
-		  if (error) throw error
-		  return results
+		return new Promise((resolve,reject) => {
+			this.connectionPool.query(queryString, function (error, results, fields) {
+			  if (error) reject(error)
+			  if(results) {
+			  	let res =  JSON.parse(JSON.stringify(results))
+			  	resolve(res)
+			  } else {
+			  	resolve(results)
+			  }
+
+			})
 		})
 	}
 }

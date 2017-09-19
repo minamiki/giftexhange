@@ -6,6 +6,7 @@ module.exports = function (server, connectionPool) {
   const GiftExchange = require('../app/index')({
     connectionPool, errors
   })
+  const Generator = require('../app/generator')
 
   /**
     * Test Endpoint
@@ -18,17 +19,20 @@ module.exports = function (server, connectionPool) {
   * Exchange Endpoints
   */
   // Generate sender/reciever pairs and save to db
-  server.post('/exchange/generate', (req, res, next) => {
+  server.get('/exchange/:eventId/generate', (req, res, next) => {
+	let GeneratorQuery = new Generator(connectionPool)
+	let result = GeneratorQuery.generateResult(1, connectionPool)
 
+	return res.send(result)
   })
 
   // send out email
-  server.post('/exchange/email', (req, res, next) => {
+  server.get('/exchange/:eventId/email', (req, res, next) => {
     GiftExchange.email(req, res, next)
   })
 
   // get event status
-  server.get('/exchange/status/:eventId', (req, res, next) => {
+  server.get('/exchange/:eventId/status', (req, res, next) => {
     let eventId = req.params.eventId
   })
 

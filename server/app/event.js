@@ -1,9 +1,13 @@
 const BaseConnection = require('./baseConnection')
+const Promise = require('promise')
 
 module.exports = class Event extends BaseConnection {
 	constructor(connectionPool) {
 		super(connectionPool)
-		this.selectQuery = 'SELECT * FROM events'
+		this.selectQuery = 'SELECT * FROM event'
+	}
+	getUsers(id) {
+		return this.query(`SELECT users FROM event WHERE id=${id}`)
 	}
 	getById(id) {
 		return this.query(`${this.selectQuery} WHERE id = ${id}`)

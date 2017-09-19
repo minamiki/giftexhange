@@ -6,13 +6,17 @@ module.exports = class Event extends BaseConnection {
 		this.selectQuery = 'SELECT * FROM result'
 		this.insertQuery = ''
 	}
+
 	getById(id) {
 		return this.query(`${this.selectQuery} WHERE id = ${id}`)
 	}
 
-	insert(sender, receiver, eventId) {
-		let query = `INSERT INTO result (sender, receiver, eventId, emailSent) VALUES (${sender}, ${receiver}, ${eventId}, false)`
+	deleteByEventId(id) {
+		return this.query(`DELETE FROM result WHERE eventId = ${id}`)
+	}
 
-		this.query(query)
+	insert(object) {
+		let query = `INSERT INTO result (senderId, receiverId, eventId, emailSent) VALUES (${object.sender}, ${object.receiver}, ${object.eventId}, ${object.emailSent})`
+		return this.query(query)
 	}
 }
