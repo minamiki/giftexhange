@@ -1,7 +1,6 @@
 'use strict'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
-import './less/style.less'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Input from './components/Input'

@@ -17,17 +17,14 @@ const clientPages = [
 
 
 /* Base Path*/
-const clientBasePath = './client/'
-const serverBasePath = './server/'
+const basePath = './client/'
 
-let clientEntries = {}
-let serverEntries = {}
+let entries = {}
 let htmlWebpackPlugins = []
 
 clientPages.forEach((page) => {
 	/* Create entries */
-	clientEntries[page] = [`${clientBasePath}${page}.js`]
-	serverEntries[page] = [`${serverBasePath}${page}.js`]
+	entries[page] = [`${basePath}${page}.js`]
 	/** This will create the page
 	 * `filename` is the generated file 
 	 * `inject` is the DOM in the template where the content will be injected
@@ -38,7 +35,7 @@ clientPages.forEach((page) => {
 			title: `${page} page`,
 			inject: 'body',
 			filename: `${page}/index.html`,
-			template: `${clientBasePath}index.html`
+			template: `${basePath}index.html`
 		})
 	)
 	htmlWebpackPlugins.push(new webpack.ProvidePlugin({
@@ -54,7 +51,7 @@ clientPages.forEach((page) => {
 })
 
 module.exports =  [{
-	entry: clientEntries,
+	entry: entries,
 	output: {
 		path: path.resolve(__dirname, "build"),
 		filename: "[name].bundle.js"
@@ -92,11 +89,5 @@ module.exports =  [{
 		]
 	},
 	plugins: htmlWebpackPlugins
-}, {
-	entry: serverEntries,
-	output: {
-		path: path.resolve(__dirname, "/server/build"),
-		filename: '[name].bundle.js'
-	}
 }]
 
