@@ -1,13 +1,13 @@
-const Generator = require('./generator')
-const Email = require('./email')
-const Wishlist = require('./wishlist')
-
 /**
   * options contains:
   * - connectionPool
   * - errors
   */
 module.exports = function (options) {
+  const Generator = require('./generator')
+  const Email = require('./email')
+  const Wishlist = require('./wishlist')(options)
+
   let module = {}
 
   module.test = (req, res, next) => {
@@ -24,12 +24,12 @@ module.exports = function (options) {
     })
   }
 
-  module.email = (eventId) => {
+  module.email = (eventId, res) => {
     // Create wishlists
     Wishlist.create(eventId)
 
     // Send Emails
-    Email.process(options.connectionPool)
+    Email.process(eventId, res, options.connectionPool)
   }
 
   return module

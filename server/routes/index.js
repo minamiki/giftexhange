@@ -21,15 +21,17 @@ module.exports = function (server, connectionPool) {
   */
   // Generate sender/reciever pairs and save to db
   server.get('/exchange/:eventId/generate', (req, res, next) => {
-	let GeneratorQuery = new Generator(connectionPool)
-	let result = GeneratorQuery.generateResult(1, connectionPool)
+    let GeneratorQuery = new Generator(connectionPool)
+    let result = GeneratorQuery.generateResult(1, connectionPool)
 
-	return res.send(result)
+    return res.send(result)
   })
 
   // send out email
   server.get('/exchange/:eventId/email', (req, res, next) => {
-    GiftExchange.email(req, res, next)
+    if (req.params.eventId) {
+      GiftExchange.email(req.params.eventId, res)
+    }
   })
 
   // get event status
@@ -71,48 +73,46 @@ module.exports = function (server, connectionPool) {
    ** WISHLIST ITEMS
    **/
   server.get('wishlist/:id/item', (req, res, next) => {
-	const WishlistItemQuery = new WishlistItem(connectionPool)
-	WishlistItemQuery.getItems(req.params.id).done((response) => {
-		res.send(response)
-	})
+    const WishlistItemQuery = new WishlistItem(connectionPool)
+    WishlistItemQuery.getItems(req.params.id).done((response) => {
+      res.send(response)
+    })
   })
 
   server.get('wishlist/:id/item/:itemId', (req, res, next) => {
-  	const WishlistItemQuery = new WishlistItem(connectionPool)
-  	WishlistItemQuery.getItem(req.params.itemId).done((response) => {
-  		res.send(response)
-  	})
+    const WishlistItemQuery = new WishlistItem(connectionPool)
+    WishlistItemQuery.getItem(req.params.itemId).done((response) => {
+      res.send(response)
+    })
   })
 
   server.post('wishlist/:id/item', (req, res, next) => {
-  	const WishlistItemQuery = new WishlistItem(connectionPool)
-  	let reqObj = {
-  		name: req.name,
-  		description: req.description,
-  		imageLink: req.imageLink,
-  		urlLink: req.urlLink
-  	}
+    const WishlistItemQuery = new WishlistItem(connectionPool)
+    let reqObj = {
+      name: req.name,
+      description: req.description,
+      imageLink: req.imageLink,
+      urlLink: req.urlLink
+    }
 
-  	WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
-  		res.send(response)
-  	})
+    WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
+      res.send(response)
+    })
   })
 
   server.put('wishlist/:id/item/:itemId', (req, res, next) => {
-  	const WishlistItemQuery = new WishlistItem(connectionPool)
-  	let reqObj = {
-  		name: req.name,
-  		description: req.description,
-  		imageLink: req.imageLink,
-  		urlLink: req.urlLink
-  	}
+    const WishlistItemQuery = new WishlistItem(connectionPool)
+    let reqObj = {
+      name: req.name,
+      description: req.description,
+      imageLink: req.imageLink,
+      urlLink: req.urlLink
+    }
 
-  	WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
-  		res.send(response)
-  	})
+    WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
+      res.send(response)
+    })
   })
-
-
 
   /**
   * Event Endpoints

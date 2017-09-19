@@ -10,5 +10,10 @@ module.exports = {
     database: 'gift_exchange',
     user: 'dev',
     password: 'zD9uUgXp'
+  },
+  email: {
+    asset_base_url: 'http://giftexchange.minamiki.com/images',
+    port: 25,
+    host: 'localhost'
   }
 }

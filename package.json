@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
+    "handlebars": "^4.0.10",
     "jquery": "^3.2.1",
     "mysql": "^2.14.1",
     "promise": "^8.0.1",
@@ -47,6 +48,7 @@
     "react-bootstrap-datetimepicker": "0.0.22",
     "react-dom": "^15.6.1",
     "restify": "^6.0.0",
-    "restify-plugins": "^1.6.0"
+    "restify-plugins": "^1.6.0",
+    "sendmail": "^1.2.0"
   }
 }
