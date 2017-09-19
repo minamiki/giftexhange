@@ -6,8 +6,6 @@ const restify = require('restify')
 const restifyPlugins = require('restify').plugins
 const mysql = require('mysql')
 
-const mongoose = require('mongoose')
-
 /**
   * Initialize Server
   */

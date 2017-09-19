@@ -1,16 +1,17 @@
-
-/**
- * Module Dependencies
- */
-const errors = require('restify-errors')
-const GiftExchange = require('../app/index')
-
 module.exports = function (server, connectionPool) {
+  /**
+   * Module Dependencies
+   */
+  const errors = require('restify-errors')
+  const GiftExchange = require('../app/index')({
+    connectionPool, errors
+  })
+
   /**
     * Test Endpoint
     */
   server.get('/exchange/test', (req, res, next) => {
-    GiftExchange.test(res, connectionPool)
+    GiftExchange.test(req, res, next)
   })
 
   /**
@@ -23,7 +24,7 @@ module.exports = function (server, connectionPool) {
 
   // send out email
   server.post('/exchange/email', (req, res, next) => {
-
+    GiftExchange.email(req, res, next)
   })
 
   // get event status
