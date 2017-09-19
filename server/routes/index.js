@@ -4,11 +4,18 @@
  */
 const errors = require('restify-errors')
 
-module.exports = function (server) {
-	/**
-	 * GET
-	 */
+module.exports = function (server, connectionPool) {
+    /**
+     * GET
+     */
   server.get('/exchange/test', (req, res, next) => {
-    res.send('ok')
+    connectionPool.query('SELECT * FROM users', function (error, results, fields) {
+      if (error) throw error
+
+      results.forEach((user) => {
+        console.log(user.id)
+      })
+      res.send(JSON.parse(JSON.stringify(results)))
+    })
   })
 }

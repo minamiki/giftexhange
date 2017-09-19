@@ -4,6 +4,7 @@
 const config = require('./config')
 const restify = require('restify')
 const restifyPlugins = require('restify').plugins
+const mysql = require('mysql')
 
 /**
   * Initialize Server
@@ -25,15 +26,22 @@ server.use(restifyPlugins.fullResponse())
   * Start Server, Connect to DB & Require Routes
   */
 server.listen(config.port, () => {
-  // db.on('error', (err) => {
-  //   console.error(err)
-  //   process.exit(1)
-  // })
+  // establish connection to mysql
+  const connectionPool = mysql.createPool({
+    connectionLimit: config.db.connectionLimit,
+    host: config.db.host,
+    user: config.db.user,
+    password: config.db.password,
+    database: config.db.database
+  })
 
-  // db.once('open', () => {
-  //   require('./routes')(server)
-  //   console.log(`Server is listening on port ${config.port}`)
-  // })
-  require('./routes')(server)
-  console.log(`Server is listening on port ${config.port}`)
+  connectionPool.getConnection((err) => {
+    if (err) {
+      console.error('Error connecting: ' + err.stack)
+      return
+    }
+
+    require('./routes')(server, connectionPool)
+    console.log(`Server is listening on port ${config.port}`)
+  })
 })

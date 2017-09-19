@@ -4,8 +4,10 @@ module.exports = {
   port: process.env.PORT || 3000,
   base_url: process.env.BASE_URL || 'http://localhost:3000',
   db: {
-    uri: process.env.MYSQL_URI || 'mysql://minamiki.com:3306',
-    name: 'gift_exchange',
+    connectionLimit: 100,
+    host: 'minamiki.com',
+    port: '3306',
+    database: 'gift_exchange',
     user: 'dev',
     password: 'zD9uUgXp'
   }
