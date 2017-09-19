@@ -1,28 +1,49 @@
 import React from 'react'
+import WishListCardDisplay from './WishListCardDisplay'
+import WishListCardForm from './WishListCardForm'
+import WishListCardNew from './WishListCardNew'
 
 export default class WishListCard extends React.Component {
 	constructor(props) {
 		super(props)
+		this.state = {
+			new: this.props.id === 'new',
+			edit: false
+		}
+	}
+	componentDidMount() {
+		window.card = window.card || {}
+		window.card[this.props.id] = this
+	}
+	saveWish(wishDetails) {
+		this.props.saveWish(wishDetails)
+	}
+	showDisplay() {
+		this.setState({
+			edit: false
+		})
+	}
+	showForm() {
+		this.setState({
+			edit: true
+		})
 	}
 	render() {
-		let image = null;
-		let linkButton = null;
-		if (this.props.imageLink) {
-			image = <img className="card-img" src={this.props.imageLink} alt=""/>
+		if (this.state.edit) {
+			return <WishListCardForm 
+				saveWish={(wishDetails) => this.saveWish(wishDetails)} 
+				showDisplay={() => this.showDisplay()} 
+				{...this.props}
+			/>
+		} else if (this.state.new) {
+			return <WishListCardNew 
+				onWish={() => this.showForm()} 
+				{...this.props}
+			/>
+		} else {
+			return <WishListCardDisplay 
+				showForm={() => this.showForm()}
+				{...this.props}/>
 		}
-		if (this.props.urlLink) {
-			linkButton = <a className="btn btn-primary card-url" target="_blank" href="this.props.urlLink">Check it out!</a>
-		}
-
-		return (
-			<div className="card w-100">
-				{image}
-				<div className="card-body">
-					<h4 className="card-name">{this.props.name}</h4>
-					<p className="card-description">{this.props.description}</p>
-					{linkButton}
-				</div>
-			</div>
-		)
 	}
 }

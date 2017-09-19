@@ -29,7 +29,7 @@ export default class Form extends BaseComponent {
 
 	render() {
 		return (
-			<form>
+			<form onSubmit={(ev) => this.props.onSubmit(ev)}>
 				{this.props.children}
 			</form>
 		)

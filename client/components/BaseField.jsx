@@ -36,4 +36,7 @@ export default class BaseField extends BaseComponent {
 		}
 	}
 
+	getValue() {
+		return null
+	}
 }

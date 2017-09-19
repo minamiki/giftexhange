@@ -17,7 +17,8 @@ export default class Input extends BaseField {
 			"defaultValue": this.props.value,
 			"name": this.props.path,
 			"id": this.props.id,
-			"className": this.buildClassName()
+			"className": this.buildClassName(),
+			"required": this.props.required
 		}
 	}
 	
@@ -38,6 +39,7 @@ export default class Input extends BaseField {
 	}
 
 	getChildren() {
+		// todo: getValue for radio
 		if(this.props.type === 'radio') {
 			let radios = []
 			this.props.options.forEach((option, index) => {
@@ -57,7 +59,9 @@ export default class Input extends BaseField {
 		} else if(this.props.type === 'checkbox') {
 			return (<div className="checkbox">
 				<label>
-					<input type='checkbox' {...this.fieldProps}/>
+					<input 
+						ref={(el) => { this.el = el }}
+						type='checkbox' {...this.fieldProps}/>
 					{this.props.text}
 				</label>
 			</div>)
@@ -67,15 +71,23 @@ export default class Input extends BaseField {
 				return (
 					<div className="input-group">
 						{this.getBefore()}
-						<input type="text" {...this.fieldProps} />
+						<input 
+							ref={(el) => { this.el = el }}
+							type="text" {...this.fieldProps} />
 						{this.getAfter()}
 					</div>
 				)
 			}
 			else {
-				return (<input type={this.props.type} {...this.fieldProps}/>)
+				return (<input 
+							ref={(el) => { this.el = el }}
+							type={this.props.type} {...this.fieldProps}/>)
 			}
 		}
+	}
+
+	getValue() {
+		return this.el.value
 	}
 
 	render() {
