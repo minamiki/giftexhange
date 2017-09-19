@@ -9,19 +9,17 @@ export default class WishList extends React.Component {
 		}
 	}
 	saveWish(wishDetails) {
-		// TODO: save
-		if (wishDetails.id) {
+		this.props.saveWish(wishDetails, (resultWishDetails) => {
 			const wishItem = this.state.wishlist.find((item) => {
 				return item.id === wishDetails.id
 			})
-			Object.assign(wishItem, wishDetails)
-		} else {
-			wishDetails.id = this.state.wishlist.length + 1
-			this.state.wishlist.push(wishDetails)
-		}
-		this.props.saveWishList(this.state.wishlist, (wishlist) => {
+			if (wishItem) {
+				Object.assign(wishItem, resultWishDetails)	
+			} else {
+				this.state.wishlist.push(resultWishDetails)
+			}
 			this.setState({
-				wishlist: wishlist
+				wishlist: this.state.wishlist
 			})
 		})
 	}

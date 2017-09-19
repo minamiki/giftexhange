@@ -73,6 +73,34 @@ module.exports = function (server, connectionPool) {
     res.send(JSON.parse(JSON.stringify(result)))
   })
 
+  server.post('wishlist/:wishlistId/item', (req, res, next) => {
+    let wishlistId = req.params.wishlistId
+    let result = {
+      id: 10,
+      name: 'hello',
+      description: 'description'
+    }
+    res.send(JSON.parse(JSON.stringify(result)))
+  })
+
+  server.put('wishlist/:wishlistId/item/:wishlistItemId', (req, res, next) => {
+    let wishlistId = req.params.wishlistId
+    let wishlistItemId = req.params.wishlistItemId
+    let result = {
+      id: Number(wishlistItemId),
+      name: 'hello 2',
+      description: 'description 2',
+      urlLink: null,
+      imageLink: null
+    }
+    res.send(JSON.parse(JSON.stringify(result)))
+  })
+
+  server.del('wishlist/:wishlistId/item/:wishlistItemId', (req, res, next) => {
+    let wishlistId = req.params.wishlistId
+    let wishlistItemId = req.params.wishlistItemId
+  })
+
   /**
    ** WISHLIST ITEMS
    **/
