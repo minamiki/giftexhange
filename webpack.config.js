@@ -3,31 +3,31 @@ const path = require('path');
 
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-	template: './client/index.html',
-	filename: 'index.html',
-	inject: 'body'
-})
+
 
 /**
  * List of URL path
  **/
-const pages = [
+const clientPages = [
 	'user',
 	'event',
 	'result',
 	'wishlist'
 ]
 
-/* Base Path*/
-const basePath = './client/'
 
-let entries = {}
+/* Base Path*/
+const clientBasePath = './client/'
+const serverBasePath = './server/'
+
+let clientEntries = {}
+let serverEntries = {}
 let htmlWebpackPlugins = []
 
-pages.forEach((page) => {
+clientPages.forEach((page) => {
 	/* Create entries */
-	entries[page] = [`${basePath}${page}.js`]
+	clientEntries[page] = [`${clientBasePath}${page}.js`]
+	serverEntries[page] = [`${serverBasePath}${page}.js`]
 	/** This will create the page
 	 * `filename` is the generated file 
 	 * `inject` is the DOM in the template where the content will be injected
@@ -38,7 +38,7 @@ pages.forEach((page) => {
 			title: `${page} page`,
 			inject: 'body',
 			filename: `${page}/index.html`,
-			template: `${basePath}index.html`
+			template: `${clientBasePath}index.html`
 		})
 	)
 	htmlWebpackPlugins.push(new webpack.ProvidePlugin({
@@ -53,8 +53,8 @@ pages.forEach((page) => {
 
 })
 
-module.exports = {
-	entry: entries,
+module.exports =  [{
+	entry: clientEntries,
 	output: {
 		path: path.resolve(__dirname, "build"),
 		filename: "[name].bundle.js"
@@ -92,5 +92,11 @@ module.exports = {
 		]
 	},
 	plugins: htmlWebpackPlugins
-}
+}, {
+	entry: serverEntries,
+	output: {
+		path: path.resolve(__dirname, "/server/build"),
+		filename: '[name].bundle.js'
+	}
+}]
 

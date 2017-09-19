@@ -29,6 +29,8 @@
     "popper.js": "^1.12.5",
     "postcss-loader": "^2.0.6",
     "precss": "^2.0.0",
+    "restify": "^6.0.0",
+    "restify-webpack-middleware": "0.0.9",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
