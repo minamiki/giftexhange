@@ -6,7 +6,6 @@ module.exports = function (server, connectionPool) {
   const GiftExchange = require('../app/index')({
     connectionPool, errors
   })
-  const Generator = require('../app/generator')
 
   /**
     * Test Endpoint
@@ -19,20 +18,17 @@ module.exports = function (server, connectionPool) {
   * Exchange Endpoints
   */
   // Generate sender/reciever pairs and save to db
-  server.get('/exchange/:eventId/generate', (req, res, next) => {
-    let GeneratorQuery = new Generator(connectionPool)
-    GeneratorQuery.generateResult(0, connectionPool)
+  server.post('/exchange/generate', (req, res, next) => {
+
   })
 
   // send out email
-  server.get('/exchange/:eventId/email', (req, res, next) => {
-    if (req.params.eventId) {
-      GiftExchange.email(req.params.eventId)
-    }
+  server.post('/exchange/email', (req, res, next) => {
+    GiftExchange.email(req, res, next)
   })
 
   // get event status
-  server.get('/exchange/:eventId/status', (req, res, next) => {
+  server.get('/exchange/status/:eventId', (req, res, next) => {
     let eventId = req.params.eventId
   })
 
@@ -40,13 +36,30 @@ module.exports = function (server, connectionPool) {
   * Wishlist Endpoints
   */
   // Save wishlist
-  server.put('wishlist/:idHash', (req, res, next) => {
+  server.post('wishlist/:idHash', (req, res, next) => {
     let idHash = req.params.idHash
   })
 
   // Read wishlist
   server.get('wishlist/:idHash', (req, res, next) => {
     let idHash = req.params.idHash
+    let result = {
+      id: idHash,
+      userId: 1,
+      userName: 'Pey Lun',
+      list: [{
+        id: 1,
+        name: 'ipad',
+        description: 'ipad of any generation as long as it is in good working condition',
+        urlLink: 'http://www.ipad.com'
+      }, {
+        id: 2,
+        name: 'Google Pixel2',
+        description: 'Preferably pixel 2, otherwise pixel 1 is fine as well',
+        imageLink: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3R8id8wr5MNCjULReMc1Q9W3rfhYlVIQCYiJguCqoXWUNaHAjGGrapJI'
+      }]
+    }
+    res.send(JSON.parse(JSON.stringify(result)))
   })
 
   /**

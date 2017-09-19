@@ -40,7 +40,7 @@ export default class WishList extends React.Component {
 		<div className="container-fluid">
 			<div className="header row">
 				<div className="col-xs-12 col-md-12">
-					<h3>Wish List</h3>
+					<h3>{this.props.name}'s Wish List</h3>
 				</div>
 			</div>
 			<div>

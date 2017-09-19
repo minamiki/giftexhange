@@ -55,6 +55,9 @@
 
 [GET] /wishlist/{idHash}
 {
+    "id": 1,
+    "userId": 1,
+    "userName": "Pey Lun",
     "list: [
         {
             "name": "Ipad",
