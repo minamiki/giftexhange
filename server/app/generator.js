@@ -3,27 +3,31 @@ const Event = require('./event')
 const Result = require('./result')
 
 module.exports = class Generator {
+	randomize(min, max) {
+		let res = Math.floor(Math.random() * (max - min + 1)) + min
+	}
 	generateResult(eventId, connectionPool) {
-		let UserQuery = new User(connectionPool)
 		let EventQuery = new Event(connectionPool)
 		let ResultQuery = new Result(connectionPool)
 
-		let users = UserQuery.get()
 		let event = EventQuery.getById(eventId)
+		let users = event.userIds.split(',')
 
 		let sender
 		let receiver
 
-		users.forEach((user, index) => {
-			sender = user.id
-			if(index < users.length) {
-				receiver = users[index+1].id
+		let i = 0
+		let order = []
+		while(i < users.length) {
+			let res = this.randomize(0, users.length)
+			if(order.indexOf(res) > -1) {
+				order.push(res)
+				i++
 			} else {
-				receiver = users[0].id
+				res = this.randomize(0, users.length)
 			}
-			ResultQuery.insert(sender,receiver,event.id)
-		})
+		}
 
-		return users
+		return order
 	}
 }
