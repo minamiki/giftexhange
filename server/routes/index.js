@@ -25,7 +25,7 @@ module.exports = function (server, connectionPool) {
   })
 
   // send out email
-  server.post('/exchange/email', (req, res, next) => {
+  server.get('/exchange/:eventId/email', (req, res, next) => {
     GiftExchange.email(req, res, next)
   })
 
