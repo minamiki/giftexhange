@@ -3,19 +3,13 @@
  * Module Dependencies
  */
 const errors = require('restify-errors')
+const GiftExchange = require('../app/index')
 
 module.exports = function (server, connectionPool) {
     /**
      * GET
      */
   server.get('/exchange/test', (req, res, next) => {
-    connectionPool.query('SELECT * FROM users', function (error, results, fields) {
-      if (error) throw error
-
-      results.forEach((user) => {
-        console.log(user.id)
-      })
-      res.send(JSON.parse(JSON.stringify(results)))
-    })
+    GiftExchange.test(res, connectionPool)
   })
 }
