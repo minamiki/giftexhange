@@ -6,7 +6,7 @@
 module.exports = function (options) {
   const Generator = require('./generator')
   const Email = require('./email')
-  const Wishlist = require('./wishlist')(options)
+  const Wishlist = require('./wishlist')
 
   let module = {}
 
@@ -26,7 +26,7 @@ module.exports = function (options) {
 
   module.email = (eventId, res) => {
     // Create wishlists
-    Wishlist.create(eventId)
+    //Wishlist.create(eventId)
 
     // Send Emails
     Email.process(eventId, res, options.connectionPool)

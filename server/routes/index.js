@@ -7,6 +7,7 @@ module.exports = function (server, connectionPool) {
     connectionPool, errors
   })
   const Generator = require('../app/generator')
+  const Wishlist = require('../app/wishlist')
   const WishlistItem = require('../app/wishlistItem')
 
   /**
@@ -52,53 +53,15 @@ module.exports = function (server, connectionPool) {
   })
 
   // Read wishlist
-  server.get('wishlist/:idHash', (req, res, next) => {
-    let idHash = req.params.idHash
-    let result = {
-      id: idHash,
-      userId: 1,
-      userName: 'Pey Lun',
-      list: [{
-        id: 1,
-        name: 'ipad',
-        description: 'ipad of any generation as long as it is in good working condition',
-        urlLink: 'http://www.ipad.com'
-      }, {
-        id: 2,
-        name: 'Google Pixel2',
-        description: 'Preferably pixel 2, otherwise pixel 1 is fine as well',
-        imageLink: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3R8id8wr5MNCjULReMc1Q9W3rfhYlVIQCYiJguCqoXWUNaHAjGGrapJI'
-      }]
-    }
-    res.send(JSON.parse(JSON.stringify(result)))
-  })
-
-  server.post('wishlist/:wishlistId/item', (req, res, next) => {
-    let wishlistId = req.params.wishlistId
-    let result = {
-      id: 10,
-      name: 'hello',
-      description: 'description'
-    }
-    res.send(JSON.parse(JSON.stringify(result)))
-  })
-
-  server.put('wishlist/:wishlistId/item/:wishlistItemId', (req, res, next) => {
-    let wishlistId = req.params.wishlistId
-    let wishlistItemId = req.params.wishlistItemId
-    let result = {
-      id: Number(wishlistItemId),
-      name: 'hello 2',
-      description: 'description 2',
-      urlLink: null,
-      imageLink: null
-    }
-    res.send(JSON.parse(JSON.stringify(result)))
-  })
-
-  server.del('wishlist/:wishlistId/item/:wishlistItemId', (req, res, next) => {
-    let wishlistId = req.params.wishlistId
-    let wishlistItemId = req.params.wishlistItemId
+  server.get('wishlist/:id', (req, res, next) => {
+    const WishlistQuery = new Wishlist(connectionPool)
+    const WishlistItemQuery = new WishlistItem(connectionPool)
+    WishlistQuery.getById(req.params.id).done((response) => {
+      WishlistItemQuery.getByWishlistId(req.params.id).done((items) => {
+        response[0].list = items
+        res.send(response[0])
+      })
+    })
   })
 
   /**
@@ -106,42 +69,35 @@ module.exports = function (server, connectionPool) {
    **/
   server.get('wishlist/:id/item', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
-    WishlistItemQuery.getItems(req.params.id).done((response) => {
+    WishlistItemQuery.getByWishlistId(req.params.id).done((response) => {
       res.send(response)
     })
   })
 
   server.get('wishlist/:id/item/:itemId', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
-    WishlistItemQuery.getItem(req.params.itemId).done((response) => {
+    WishlistItemQuery.getById(req.params.itemId).done((response) => {
       res.send(response)
     })
   })
 
   server.post('wishlist/:id/item', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
-    let reqObj = {
-      name: req.name,
-      description: req.description,
-      imageLink: req.imageLink,
-      urlLink: req.urlLink
-    }
-
-    WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
-      res.send(response)
+    WishlistItemQuery.create(req.params.id, req.body).done((response) => {
+      reqObj.id = response.insertId
+      res.send(reqObj)
     })
   })
 
   server.put('wishlist/:id/item/:itemId', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
-    let reqObj = {
-      name: req.name,
-      description: req.description,
-      imageLink: req.imageLink,
-      urlLink: req.urlLink
-    }
+    WishlistItemQuery.update(req.params.itemId, req.body).done((response) => {
+      res.send(response)
+    })
+  })
 
-    WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
+  server.del('wishlist/:id/item/:itemId', (req, res, next) => {
+    WishlistItemQuery.delete(req.params.itemId).done((response) => {
       res.send(response)
     })
   })

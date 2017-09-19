@@ -11,15 +11,15 @@ const userId = searchParams.get('userId')
 const url = `/api/wishlist/${id}`
 const itemUrl = `${url}/item`
 const saveWish = (wishDetails, onSuccessCallback) => {
-	const ajaxCall = wishDetails.id
-		? $.ajax({
-			url: `${itemUrl}/${wishDetails.id}`,
-			method: 'PUT',
-			data: wishDetails
-		})
-		: $.post(itemUrl, wishDetails)
+	const method = wishDetails.id ? 'PUT' : 'POST'
+	const url = wishDetails.id ? `${itemUrl}/${wishDetails.id}` : itemUrl
 
-	ajaxCall.done((resp) => {
+	$.ajax({
+		url: url,
+		method: method,
+        contentType: 'application/json; charset=utf-8',
+		data: JSON.stringify(wishDetails)
+	}).done((resp) => {
 		onSuccessCallback(resp)
 	})
 }

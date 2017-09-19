@@ -1,18 +1,12 @@
-module.exports = function (options) {
-  let module = {}
+const BaseConnection = require('./baseConnection')
+const Promise = require('promise')
 
-  // TODO: creates all wishlists for an event
-  module.create = (eventId) => {
-
-  }
-
-  module.addItem = (id, object) => {
-
-  }
-
-  module.removeItem = () => {
-
-  }
-
-  return module
+module.exports = class Wishlist extends BaseConnection {
+	getById(id) {
+		return this.query(`SELECT *, 
+			(SELECT u.fullName FROM users u WHERE u.id = wl.userId) as userName
+			FROM wishlist wl WHERE wl.id = ${id}`)
+	}
+	create(eventId, object) {
+	}
 }
