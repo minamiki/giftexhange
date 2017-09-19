@@ -20,13 +20,15 @@ module.exports = function (server, connectionPool) {
   */
   // Generate sender/reciever pairs and save to db
   server.get('/exchange/:eventId/generate', (req, res, next) => {
-	let GeneratorQuery = new Generator(connectionPool)
-	GeneratorQuery.generateResult(0, connectionPool)
+    let GeneratorQuery = new Generator(connectionPool)
+    GeneratorQuery.generateResult(0, connectionPool)
   })
 
   // send out email
   server.get('/exchange/:eventId/email', (req, res, next) => {
-    GiftExchange.email(req, res, next)
+    if (req.params.eventId) {
+      GiftExchange.email(req.params.eventId)
+    }
   })
 
   // get event status
@@ -38,7 +40,7 @@ module.exports = function (server, connectionPool) {
   * Wishlist Endpoints
   */
   // Save wishlist
-  server.post('wishlist/:idHash', (req, res, next) => {
+  server.put('wishlist/:idHash', (req, res, next) => {
     let idHash = req.params.idHash
   })
 
