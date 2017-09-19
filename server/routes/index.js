@@ -7,6 +7,7 @@ module.exports = function (server, connectionPool) {
     connectionPool, errors
   })
   const Generator = require('../app/generator')
+  const WishlistItem = require('../app/wishlistItem')
 
   /**
     * Test Endpoint
@@ -65,6 +66,53 @@ module.exports = function (server, connectionPool) {
     }
     res.send(JSON.parse(JSON.stringify(result)))
   })
+
+  /**
+   ** WISHLIST ITEMS
+   **/
+  server.get('wishlist/:id/item', (req, res, next) => {
+	const WishlistItemQuery = new WishlistItem(connectionPool)
+	WishlistItemQuery.getItems(req.params.id).done((response) => {
+		res.send(response)
+	})
+  })
+
+  server.get('wishlist/:id/item/:itemId', (req, res, next) => {
+  	const WishlistItemQuery = new WishlistItem(connectionPool)
+  	WishlistItemQuery.getItems(req.params.itemId).done((response) => {
+  		res.send(response)
+  	})
+  })
+
+  server.post('wishlist/:id/item/:itemId', (req, res, next) => {
+  	const WishlistItemQuery = new WishlistItem(connectionPool)
+  	let reqObj = {
+  		name: req.name,
+  		description: req.description,
+  		imageLink: req.imageLink,
+  		urlLink: req.urlLink
+  	}
+
+  	WishlistItemQuery.getItems(req.params.id, reqObject).done((response) => {
+  		res.send(response)
+  	})
+  })
+
+  server.put('wishlist/:id/item/:itemId', (req, res, next) => {
+  	const WishlistItemQuery = new WishlistItem(connectionPool)
+  	let reqObj = {
+  		name: req.name,
+  		description: req.description,
+  		imageLink: req.imageLink,
+  		urlLink: req.urlLink
+  	}
+
+  	WishlistItemQuery.getItems(req.params.id, reqObject).done((response) => {
+  		res.send(response)
+  	})
+  })
+
+
 
   /**
   * Event Endpoints

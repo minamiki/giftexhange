@@ -6,7 +6,7 @@ module.exports = function (options) {
 
   }
 
-  module.addItem = () => {
+  module.addItem = (id, object) => {
 
   }
 
