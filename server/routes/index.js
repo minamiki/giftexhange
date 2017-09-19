@@ -79,12 +79,12 @@ module.exports = function (server, connectionPool) {
 
   server.get('wishlist/:id/item/:itemId', (req, res, next) => {
   	const WishlistItemQuery = new WishlistItem(connectionPool)
-  	WishlistItemQuery.getItems(req.params.itemId).done((response) => {
+  	WishlistItemQuery.getItem(req.params.itemId).done((response) => {
   		res.send(response)
   	})
   })
 
-  server.post('wishlist/:id/item/:itemId', (req, res, next) => {
+  server.post('wishlist/:id/item', (req, res, next) => {
   	const WishlistItemQuery = new WishlistItem(connectionPool)
   	let reqObj = {
   		name: req.name,
@@ -93,7 +93,7 @@ module.exports = function (server, connectionPool) {
   		urlLink: req.urlLink
   	}
 
-  	WishlistItemQuery.getItems(req.params.id, reqObject).done((response) => {
+  	WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
   		res.send(response)
   	})
   })
@@ -107,7 +107,7 @@ module.exports = function (server, connectionPool) {
   		urlLink: req.urlLink
   	}
 
-  	WishlistItemQuery.getItems(req.params.id, reqObject).done((response) => {
+  	WishlistItemQuery.getItems(req.params.id, reqObj).done((response) => {
   		res.send(response)
   	})
   })
