@@ -7,6 +7,15 @@ module.exports = class Wishlist extends BaseConnection {
       (SELECT u.fullName FROM users u WHERE u.id = wl.userId) as userName
       FROM wishlist wl WHERE wl.id = ${id}`)
   }
-  create (eventId, object) {
+
+  create (users, eventId) {
+    if (users.length > 0) {
+      let sqlInsert = ''
+      users.forEach((user) => {
+        sqlInsert += `(${user}, ${eventId}, now()),`
+      })
+      sqlInsert = sqlInsert.substring(0, sqlInsert.length - 1)
+      return this.query(`INSERT INTO wishlist(userId, eventId, lastUpdate) VALUES${sqlInsert}`)
+    }
   }
 }
