@@ -12,7 +12,7 @@ module.exports = {
     password: 'zD9uUgXp'
   },
   email: {
-    client_base_url: 'http://localhost:8080',
+    client_base_url: 'http://minamiki.com:8128',
     asset_base_url: 'http://giftexchange.minamiki.com/images',
     port: 25,
     host: 'localhost'
