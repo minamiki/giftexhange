@@ -6,7 +6,8 @@ import * as d3 from 'd3'
 
 const searchParams = new URLSearchParams(window.location.search) //?anything=123
 const eventId = searchParams.get('eventId')
-
+const url = eventId ? `api/report/${eventId}/match-list` : 'api/report/match-list'
+const strength = eventId ? -1000 : -100
 let path
 let node
 let link
@@ -22,7 +23,7 @@ const color = d3.scaleOrdinal(d3.schemeCategory20)
 
 const simulation = d3.forceSimulation()
 	.force('link', d3.forceLink().id(function(d) { return d.id }))
-	.force('charge', d3.forceManyBody().strength(-1000))
+	.force('charge', d3.forceManyBody().strength(strength))
 	.force('center', d3.forceCenter(width / 2, height / 2))
 
 const dragstarted = (d) => {
@@ -60,11 +61,11 @@ const ticked = () => {
 	node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')' })
 }
 
-$.get(`api/report/${eventId}/match-list`).done((resp) => {
+$.get(url).done((resp) => {
 	const graph = {
 		nodes: resp.map((item) => {
 			return {
-				id: item.receiverId,
+				id: `${item.eventId}_${item.senderId}`,
 				name: item.receiverName,
 				count: item.wishlist_count,
 				group: item.eventId
@@ -72,8 +73,8 @@ $.get(`api/report/${eventId}/match-list`).done((resp) => {
 		}),
 		links: resp.map((item) => {
 			return {
-				source: item.senderId,
-				target: item.receiverId
+				source: `${item.eventId}_${item.senderId}`,
+				target: `${item.eventId}_${item.receiverId}`
 			}
 		})
 	}
