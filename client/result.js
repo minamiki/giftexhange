@@ -8,7 +8,7 @@ const searchParams = new URLSearchParams(window.location.search) //?anything=123
 const eventId = searchParams.get('eventId')
 const userId = searchParams.get('userId')
 const url = eventId ? `api/report/${eventId}/match-list` : 'api/report/match-list'
-const strength = eventId ? -1000 : -100
+const strength = eventId ? -500 : -100
 let path
 let node
 
