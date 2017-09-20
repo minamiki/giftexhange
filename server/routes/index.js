@@ -160,9 +160,9 @@ module.exports = function (server, connectionPool) {
 
 
 
-  server.get('report/match-list', (req, res, next) => {
+  server.get('report/:eventId/match-list', (req, res, next) => {
       const ResultQuery = new Result(connectionPool)
-      ResultQuery.get().done((response) => {
+      ResultQuery.getByEventId(req.params.eventId).done((response) => {
           res.send(response)
       })
   })
