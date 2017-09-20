@@ -2,18 +2,14 @@
 
 ### Exchange Endpoint
 ```
+// Generate Gift Assignments
+[GET] /exchange/{eventId}/generate
+
+// Send Emails
+[GET] /exchange/{eventId}/email
+
+[GET] /exchange/{eventId}/status (BONUS)
 // Payload
-[POST] /exchange/generate
-{
-    "eventId": 2
-}
-
-[POST] /exchange/email
-{
-    "eventId": 2
-}
-
-[GET] /exchange/status/{eventId} (BONUS)
 {
     "eventName": "Christmas 2017",
     "wishlistCompleted": [20, 26],
