@@ -8,12 +8,12 @@ const searchParams = new URLSearchParams(window.location.search) //?anything=123
 const eventId = searchParams.get('eventId')
 const userId = searchParams.get('userId')
 const url = eventId ? `api/report/${eventId}/match-list` : 'api/report/match-list'
-const strength = eventId ? -500 : -100
+const strength = eventId ? -100 : -50
 let path
 let node
 
 const width = 960,
-		height = 500
+		height = 600
 
 const svg = d3.select('#main-content').append('svg')
 	.attr('width', width)
