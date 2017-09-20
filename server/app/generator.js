@@ -27,24 +27,23 @@ module.exports = class Generator {
           }
         }
 
-        ResultQuery.deleteByEventId(res[0].id)
+        ResultQuery.deleteByEventId(res[0].id).done((response) => {
+            orders.forEach((order, index) => {
+                let object = {
+                    sender: order,
+                    receiver: (index === orders.length - 1) ? orders[0] : orders[index + 1],
+                    eventId: res[0].id,
+                    emailSent: false,
+                    timestamp: 'now()'
+                }
 
-        orders.forEach((order, index) => {
-          let object = {
-            sender: order,
-            receiver: (index === orders.length - 1) ? orders[0] : orders[index + 1],
-            eventId: res[0].id,
-            emailSent: false,
-            timestamp: 'now()'
-          }
-
-          ResultQuery.insert(object).done((res2) => {
-            console.log('done', object, res2)
-          })
+                ResultQuery.insert(object).done((res2) => {
+                    console.log('done', object, res2)
+                })
+            })
+            return 200
         })
-        return 200
       }
-      return 500
     })
   }
 }
