@@ -14,12 +14,29 @@ const clientPages = [
   'result',
   'wishlist'
 ]
+const titles = {
+  'user': 'User',
+  'event': 'Event',
+  'result': 'Result',
+  'wishlist': 'Wish List'
+}
 
 /* Base Path */
 const basePath = './client/'
 
 let entries = {}
 let htmlWebpackPlugins = []
+htmlWebpackPlugins.push(new webpack.ProvidePlugin({
+  $: 'jquery',
+  jQuery: 'jquery',
+  'window.jquery': 'jquery',
+  Popper: ['popper.js', 'default'],
+  Util: 'exports-loader?Util!bootstrap/js/dist/util',
+  Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown'
+}))
+htmlWebpackPlugins.push(new HtmlWebpackPlugin({
+  inject: false
+}))
 
 clientPages.forEach((page) => {
     /* Create entries */
@@ -30,21 +47,14 @@ clientPages.forEach((page) => {
      * `template` is the template for the generated file, can be .ejs, .html, .hbs, etc.
      **/
   htmlWebpackPlugins.push(
-        new HtmlWebpackPlugin({
-          title: `${page} page`,
-          inject: 'body',
-          filename: `${page}/index.html`,
-          template: `${basePath}index.html`
-        })
-    )
-  htmlWebpackPlugins.push(new webpack.ProvidePlugin({
-    $: 'jquery',
-    jQuery: 'jquery',
-    'window.jquery': 'jquery',
-    Popper: ['popper.js', 'default'],
-    Util: 'exports-loader?Util!bootstrap/js/dist/util',
-    Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown'
-  }))
+    new HtmlWebpackPlugin({
+      title: titles[page],
+      inject: false,
+      bundle:`${page}.bundle.js`,
+      filename: `${page}/index.html`,
+      template: `${basePath}index.html`
+    })
+  )
 })
 
 module.exports = [{
