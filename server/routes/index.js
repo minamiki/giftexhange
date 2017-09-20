@@ -106,8 +106,8 @@ module.exports = function (server, connectionPool) {
   server.post('wishlist/:id/item', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.create(req.params.id, req.body).done((response) => {
-      reqObj.id = response.insertId
-      res.send(reqObj)
+      req.body.id = response.insertId
+      res.send(req.body)
     })
   })
 
