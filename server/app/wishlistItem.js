@@ -15,6 +15,6 @@ module.exports = class WishlistItem extends BaseConnection {
 		return this.query(`UPDATE wishlist_items SET name = '${object.name}', description='${object.description}', imageLink = '${object.imageLink}', urlLink = '${object.urlLink}' WHERE id=${id}`)
 	}
 	delete(id) {
-		return this.query(`DELETE FROM wishlist_item WHERE id=${id}`)
+		return this.query(`DELETE FROM wishlist_items WHERE id=${id}`)
 	}
 }

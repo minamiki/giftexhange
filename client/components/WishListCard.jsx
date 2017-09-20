@@ -15,10 +15,10 @@ export default class WishListCard extends React.Component {
 		window.card = window.card || {}
 		window.card[this.props.id] = this
 	}
-	saveWish(wishDetails) {
+	save(wishDetails) {
 		this.props.saveWish(wishDetails)
 	}
-	deleteWish() {
+	delete() {
 		this.props.deleteWish(this.props.id)
 	}
 	showDisplay() {
@@ -34,8 +34,8 @@ export default class WishListCard extends React.Component {
 	render() {
 		if (this.state.edit) {
 			return <WishListCardForm 
-				saveWish={(wishDetails) => this.saveWish(wishDetails)} 
-				deleteWish={() => this.deleteWish()}
+				save={(wishDetails) => this.save(wishDetails)} 
+				delete={() => this.delete()}
 				showDisplay={() => this.showDisplay()} 
 				{...this.props}
 			/>
@@ -46,7 +46,7 @@ export default class WishListCard extends React.Component {
 			/>
 		} else {
 			return <WishListCardDisplay 
-				deleteWish={() => this.deleteWish()}
+				delete={() => this.delete()}
 				showForm={() => this.showForm()}
 				{...this.props}/>
 		}

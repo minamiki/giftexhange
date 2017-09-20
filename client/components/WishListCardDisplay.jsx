@@ -22,7 +22,7 @@ export default class WishListCardDisplay extends React.Component {
 					<a onClick={onDoubleClick}>
 						<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
 					</a>
-					<a onClick={() => this.props.deleteWish()}>
+					<a onClick={() => this.props.delete()}>
 						<i className="fa fa-trash-o" aria-hidden="true"></i>
 					</a>
 				</div>

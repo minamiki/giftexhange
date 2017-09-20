@@ -71,7 +71,6 @@ export default class WishList extends React.Component {
 				})
 			: <div>Waiting for {this.props.name} to make a wish!</div>
 		
-
 		return (
 		<div className="container-fluid">
 			<div className="header row">
