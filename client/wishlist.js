@@ -24,9 +24,9 @@ const saveWish = (wishDetails, onSuccessCallback) => {
 		onSuccessCallback(resp)
 	})
 }
-const deleteWish = (wishDetails, onSuccessCallback) => {
+const deleteWish = (wishId, onSuccessCallback) => {
 	$.ajax({
-		url: `${itemUrl}/${wishDetails.id}`,
+		url: `${itemUrl}/${wishId}`,
 		method: 'DELETE'
 	}).done(() => {
 		onSuccessCallback()
@@ -40,7 +40,7 @@ $.get(url, (resp) => {
 		<WishList 
 			name={resp.userName} editable={editable} wishlist={resp.list}
 			saveWish={(wishDetails, onSuccessCallback) => saveWish(wishDetails, onSuccessCallback)}
-			deleteWish={(wishDetails) => deleteWish(wishDetails)}
+			deleteWish={(wishId, onSuccessCallback) => deleteWish(wishId, onSuccessCallback)}
 		/>, 
 		document.getElementById('main-content'))
 })

@@ -129,6 +129,7 @@ module.exports = function (server, connectionPool) {
   })
 
   server.del('wishlist/:id/item/:itemId', (req, res, next) => {
+    const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.delete(req.params.itemId).done((response) => {
       res.send(response)
     })
