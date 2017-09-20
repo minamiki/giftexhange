@@ -6,13 +6,13 @@ import * as d3 from 'd3'
 
 const searchParams = new URLSearchParams(window.location.search) //?anything=123
 const eventId = searchParams.get('eventId')
+const userId = searchParams.get('userId')
 const url = eventId ? `api/report/${eventId}/match-list` : 'api/report/match-list'
 const strength = eventId ? -1000 : -100
 let path
 let node
-let link
 
-const width = 800,
+const width = 960,
 		height = 500
 
 const svg = d3.select('#main-content').append('svg')
@@ -25,6 +25,10 @@ const simulation = d3.forceSimulation()
 	.force('link', d3.forceLink().id(function(d) { return d.id }))
 	.force('charge', d3.forceManyBody().strength(strength))
 	.force('center', d3.forceCenter(width / 2, height / 2))
+
+const dblclicked = (d) => {
+	window.location = `wishlist?id=${d.wishlistId}${userId ? `&userId=${userId}` : ''}`
+}
 
 const dragstarted = (d) => {
 	if (!d3.event.active) simulation.alphaTarget(0.3).restart()
@@ -68,7 +72,8 @@ $.get(url).done((resp) => {
 				id: `${item.eventId}_${item.senderId}`,
 				name: item.receiverName,
 				count: item.wishlist_count,
-				group: item.eventId
+				group: item.eventId,
+				wishlistId: item.wishlistId
 			}
 		}),
 		links: resp.map((item) => {
@@ -111,6 +116,7 @@ $.get(url).done((resp) => {
 	node.append('circle')
 		.attr('r', 5)
 		.attr('fill', function(d) { return color(d.group) })
+			.on('dblclick', dblclicked)
 			.call(d3.drag()
 				.on('start', dragstarted)
 				.on('drag', dragged)
