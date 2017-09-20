@@ -10,7 +10,7 @@ module.exports = function (server, connectionPool) {
   const Wishlist = require('../app/wishlist')
   const WishlistItem = require('../app/wishlistItem')
   const Result = require('../app/result')
-
+  const Report = require('../app/report')
   /**
     * Test Endpoint
     */
@@ -157,10 +157,16 @@ module.exports = function (server, connectionPool) {
 
 
 
-  server.get('report', (req, res, next) => {
+  server.get('report/match-list', (req, res, next) => {
       const ResultQuery = new Result(connectionPool)
       ResultQuery.get().done((response) => {
           res.send(response)
+      })
+  })
+  server.get('report/empty-wishlist', (req, res, next) => {
+      const ReportQuery = new Report(connectionPool)
+      ReportQuery.getEmptyWishlist().done((response) => {
+        res.send(response)
       })
   })
   /**
