@@ -19,6 +19,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.7",
+    "d3": "^4.10.2",
     "exports-loader": "^0.6.4",
     "file-loader": "^0.11.2",
     "font-awesome": "^4.7.0",
