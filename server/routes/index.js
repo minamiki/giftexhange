@@ -6,7 +6,7 @@ module.exports = function (server, connectionPool) {
 
   const Generator = require('../app/generator')
   const Email = require('../app/email')
-  const Wishlist = require('../app/wishlist')(connectionPool)
+  const Wishlist = require('../app/wishlist')
   const WishlistItem = require('../app/wishlistItem')
 
   /**
@@ -44,9 +44,10 @@ module.exports = function (server, connectionPool) {
   // send out email
   server.get('/exchange/:eventId/email', (req, res, next) => {
     let eventId = req.params.eventId
+    const WishlistQuery = new Wishlist(connectionPool)
     if (eventId) {
       // Create wishlists
-      Wishlist.create(eventId)
+        WishlistQuery.create(eventId)
 
       // Send Emails
       Email.process(eventId, res, connectionPool)
@@ -114,7 +115,9 @@ module.exports = function (server, connectionPool) {
   server.put('wishlist/:id/item/:itemId', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.update(req.params.itemId, req.body).done((response) => {
-      res.send(response)
+      WishlistItemQuery.getById(req.params.itemId).done((response) => {
+        res.send(response[0])
+      })
     })
   })
 
