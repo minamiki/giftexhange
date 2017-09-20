@@ -50,7 +50,6 @@
     "react-bootstrap-datetimepicker": "0.0.22",
     "react-dom": "^15.6.1",
     "restify": "^6.0.0",
-    "restify-plugins": "^1.6.0",
     "sendmail": "^1.2.0"
   }
 }
