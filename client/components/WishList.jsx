@@ -29,7 +29,7 @@ export default class WishList extends React.Component {
 		}
 		this.props.deleteWish(wishId, () => {
 			const index = this.state.wishlist.findIndex((item) => {
-				item.id === wishId
+				return item.id === wishId
 			})
 			this.state.wishlist.splice(index, 1)
 			this.setState({

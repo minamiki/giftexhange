@@ -32,7 +32,8 @@ body {
 			color: #1997c6;
 		}
 		.card-img {
-			max-height: 200px;
+			min-height: 150px;
+			max-height: 250px;
 			border-bottom-left-radius: 0;
 			border-bottom-right-radius: 0;
 		}
@@ -50,7 +51,7 @@ body {
 		.card-icon-overlay {
 			position: absolute;
 			bottom: 0;
-			width: 100%;
+			right: 0;
 			text-align: right;
 			padding: 15px;
 			font-size: 1.5rem;
