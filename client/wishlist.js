@@ -33,12 +33,19 @@ const deleteWish = (wishId, onSuccessCallback) => {
 	})
 }
 
+const refreshList = (onSuccessCallback) => {
+	$.get(url, (resp) => {
+		onSuccessCallback(resp.list)
+	})
+}
+
 // TODO: fetch user info & wishlist
 $.get(url, (resp) => {
 	const editable = resp.userId === Number(userId)
 	ReactDOM.render(
 		<WishList 
 			name={resp.userName} editable={editable} wishlist={resp.list}
+			refreshList={(onSuccessCallback) => refreshList(onSuccessCallback)}
 			saveWish={(wishDetails, onSuccessCallback) => saveWish(wishDetails, onSuccessCallback)}
 			deleteWish={(wishId, onSuccessCallback) => deleteWish(wishId, onSuccessCallback)}
 		/>, 

@@ -8,6 +8,13 @@ export default class WishList extends React.Component {
 			wishlist: this.props.wishlist || []
 		}
 	}
+	refreshList() {
+		this.props.refreshList((wishlist) => {
+			this.setState({
+				wishlist: wishlist
+			})
+		})
+	}
 	saveWish(wishDetails) {
 		this.props.saveWish(wishDetails, (resultWishDetails) => {
 			const wishItem = this.state.wishlist.find((item) => {
@@ -75,7 +82,12 @@ export default class WishList extends React.Component {
 		<div className="container-fluid">
 			<div className="header row">
 				<div className="col-xs-12 col-md-12">
-					<h3>{this.props.name}'s Wish List</h3>
+					<h3>
+						{this.props.name}'s Wish List
+						<a onClick={() => this.refreshList()}>
+							<i className="fa fa-refresh" aria-hidden="true"></i>
+						</a>
+					</h3>
 				</div>
 			</div>
 			<div>

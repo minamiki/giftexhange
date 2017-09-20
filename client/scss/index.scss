@@ -16,6 +16,17 @@ body {
 			line-height: 1.1;
 			color: #fff;
 		}
+		a {
+			float: right;
+			opacity: 0.5;
+			.fa {
+				font-size: 1.5rem;
+			}
+			&:hover {
+				cursor: pointer;
+				opacity: 0.8;
+			}
+		}
 	}
 
 	.card {
@@ -66,6 +77,7 @@ body {
 				}
 
 				&:hover {
+					cursor: pointer;
 					.fa {
 						opacity: 0.8;	
 					}
