@@ -7,6 +7,10 @@ import * as d3 from 'd3'
 const searchParams = new URLSearchParams(window.location.search) //?anything=123
 const eventId = searchParams.get('eventId')
 
+let path
+let node
+let link
+
 const width = 800,
 		height = 500
 
@@ -41,21 +45,28 @@ const dragended = (d) => {
 }
 
 const ticked = () => {
-	link
-		.attr('x1', function(d) { return d.source.x })
-		.attr('y1', function(d) { return d.source.y })
-		.attr('x2', function(d) { return d.target.x })
-		.attr('y2', function(d) { return d.target.y })
-	node
-		.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')' })
+	path.attr('d', function(d) {
+		var dx = d.target.x - d.source.x,
+			dy = d.target.y - d.source.y,
+			dr = Math.sqrt(dx * dx + dy * dy);
+		return 'M' + 
+			d.source.x + ',' + 
+			d.source.y + 'A' + 
+			dr + ',' + dr + ' 0 0,1 ' + 
+			d.target.x + ',' + 
+			d.target.y;
+	})
+
+	node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')' })
 }
 
 $.get(`api/report/${eventId}/match-list`).done((resp) => {
 	const graph = {
 		nodes: resp.map((item) => {
 			return {
-				id: item.senderId,
-				name: item.senderName,
+				id: item.receiverId,
+				name: item.receiverName,
+				count: item.wishlist_count,
 				group: item.eventId
 			}
 		}),
@@ -67,21 +78,36 @@ $.get(`api/report/${eventId}/match-list`).done((resp) => {
 		})
 	}
 
-	const link = svg.append('g')
-		.attr('class', 'links')
-		.selectAll('line')
-		.data(graph.links)
-		.enter().append('line')
-		.attr('stroke-width', function(d) { return Math.sqrt(d.value) })
+	// build the arrow.
+	svg.append('svg:defs').selectAll('marker')
+		.data(['end'])      // Different link/path types can be defined here
+		.enter().append('svg:marker')    // This section adds in the arrows
+			.attr('id', String)
+			.attr('viewBox', '0 -5 10 10')
+			.attr('refX', 15)
+			.attr('refY', -1.5)
+			.attr('markerWidth', 6)
+			.attr('markerHeight', 6)
+			.attr('orient', 'auto')
+			.append('svg:path')
+				.attr('d', 'M0,-5L10,0L0,5')
+				.style('fill', '#1997c6')
 
-	const node = svg.append('g')
+	// add the links and the arrows
+	path = svg.append('svg:g').selectAll('path')
+		.data(graph.links)
+		.enter().append('svg:path')
+			.attr('class', 'link')
+			.attr('marker-end', 'url(#end)')
+
+	node = svg.append('g')
 		.attr('class', 'nodes')
 		.selectAll('.node')
 		.data(graph.nodes)
 		.enter().append('g')
-			.attr("class", "node")
+			.attr('class', 'node')
 
-	const circle = node.append('circle')
+	node.append('circle')
 		.attr('r', 5)
 		.attr('fill', function(d) { return color(d.group) })
 			.call(d3.drag()
@@ -92,7 +118,7 @@ $.get(`api/report/${eventId}/match-list`).done((resp) => {
 	node.append('text')
 		.attr('x', 12)
 		.attr('dy', '.35em')
-		.text(function(d) { return `${d.name} ${d.wishlist_count ? `(${d.wishlist_count})`: ''}` })
+		.text(function(d) { return `${d.name} (${d.count})` })
 
 	simulation
 		.nodes(graph.nodes)
