@@ -18,4 +18,8 @@ module.exports = class Wishlist extends BaseConnection {
       return this.query(`INSERT INTO wishlist(userId, eventId, lastUpdate) VALUES${sqlInsert}`)
     }
   }
+
+  updateLastModified (id) {
+    return this.query(`UPDATE wishlist SET lastUpdate = now() WHERE id = ${id}`)
+  }
 }

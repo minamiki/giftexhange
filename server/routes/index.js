@@ -107,8 +107,8 @@ module.exports = function (server, connectionPool) {
   server.get('wishlist/:id/item/:itemId', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.getById(req.params.itemId).done((response) => {
-      if(Array.isArray(response) && response.length === 1) {
-          res.send(response[0])
+      if (Array.isArray(response) && response.length === 1) {
+        res.send(response[0])
       } else {
         res.send(404)
       }
@@ -116,34 +116,40 @@ module.exports = function (server, connectionPool) {
   })
 
   server.post('wishlist/:id/item', (req, res, next) => {
+    const WishlistQuery = new Wishlist(connectionPool)
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.create(req.params.id, req.body).done((response) => {
-        WishlistItemQuery.getById(response.insertId).done((response) => {
-            if(Array.isArray(response) && response.length === 1) {
-                res.send(response[0])
-            } else {
-                res.send(404)
-            }
-        })
+      WishlistQuery.updateLastModified(req.params.id)
+      WishlistItemQuery.getById(response.insertId).done((response) => {
+        if (Array.isArray(response) && response.length === 1) {
+          res.send(response[0])
+        } else {
+          res.send(404)
+        }
+      })
     })
   })
 
   server.put('wishlist/:id/item/:itemId', (req, res, next) => {
+    const WishlistQuery = new Wishlist(connectionPool)
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.update(req.params.itemId, req.body).done((response) => {
+      WishlistQuery.updateLastModified(req.params.id)
       WishlistItemQuery.getById(req.params.itemId).done((response) => {
-          if(Array.isArray(response) && response.length === 1) {
-              res.send(response[0])
-          } else {
-              res.send(404)
-          }
+        if (Array.isArray(response) && response.length === 1) {
+          res.send(response[0])
+        } else {
+          res.send(404)
+        }
       })
     })
   })
 
   server.del('wishlist/:id/item/:itemId', (req, res, next) => {
+    const WishlistQuery = new Wishlist(connectionPool)
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.delete(req.params.itemId).done((response) => {
+      WishlistQuery.updateLastModified(req.params.id)
       res.send(response)
     })
   })
