@@ -69,7 +69,7 @@ $.get(url).done((resp) => {
 	const graph = {
 		nodes: resp.map((item) => {
 			return {
-				id: `${item.eventId}_${item.senderId}`,
+				id: `${item.eventId}_${item.receiverId}`,
 				name: item.receiverName,
 				count: item.wishlist_count,
 				group: item.eventId,
