@@ -107,15 +107,24 @@ module.exports = function (server, connectionPool) {
   server.get('wishlist/:id/item/:itemId', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.getById(req.params.itemId).done((response) => {
-      res.send(response)
+      if(Array.isArray(response) && response.length === 1) {
+          res.send(response[0])
+      } else {
+        res.send(404)
+      }
     })
   })
 
   server.post('wishlist/:id/item', (req, res, next) => {
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.create(req.params.id, req.body).done((response) => {
-      req.body.id = response.insertId
-      res.send(req.body)
+        WishlistItemQuery.getById(response.insertId).done((response) => {
+            if(Array.isArray(response) && response.length === 1) {
+                res.send(response[0])
+            } else {
+                res.send(404)
+            }
+        })
     })
   })
 
@@ -123,7 +132,11 @@ module.exports = function (server, connectionPool) {
     const WishlistItemQuery = new WishlistItem(connectionPool)
     WishlistItemQuery.update(req.params.itemId, req.body).done((response) => {
       WishlistItemQuery.getById(req.params.itemId).done((response) => {
-        res.send(response[0])
+          if(Array.isArray(response) && response.length === 1) {
+              res.send(response[0])
+          } else {
+              res.send(404)
+          }
       })
     })
   })
