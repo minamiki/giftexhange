@@ -50,7 +50,7 @@ clientPages.forEach((page) => {
     new HtmlWebpackPlugin({
       title: titles[page],
       inject: false,
-      bundle:`${page}.bundle.js`,
+      bundle: `${page}.bundle.js`,
       filename: `${page}/index.html`,
       template: `${basePath}index.html`
     })
@@ -64,6 +64,7 @@ module.exports = [{
     filename: '[name].bundle.js'
   },
   devServer: {
+    disableHostCheck: true,
     proxy: {
       '/api': {
         target: 'http://localhost:3000',
