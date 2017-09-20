@@ -166,6 +166,14 @@ module.exports = function (server, connectionPool) {
           res.send(response)
       })
   })
+
+  server.get('report/match-list', (req, res, next) => {
+      const ResultQuery = new Result(connectionPool)
+      ResultQuery.getAllResults().done((response) => {
+          res.send(response)
+      })
+  })
+
   server.get('report/empty-wishlist', (req, res, next) => {
       const ReportQuery = new Report(connectionPool)
       ReportQuery.getEmptyWishlist().done((response) => {
