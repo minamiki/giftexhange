@@ -19,6 +19,7 @@ body {
 	}
 
 	.card {
+		position: relative;
 		background-color: #1e2127;
 		border: 1px solid #434857;
 		min-height: 200px;
@@ -26,10 +27,6 @@ body {
 
 		display: inline-block;
 		margin-bottom: 15px;
-
-		&:hover {
-			box-shadow: 0px 0px 8px #78d4f7;
-		}
 
 		.card-name {
 			color: #1997c6;
@@ -47,6 +44,39 @@ body {
 				color: #fff;
 				background-color: #1997c6;
 				border-color: #1997c6;
+			}
+		}
+
+		.card-icon-overlay {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			text-align: right;
+			padding: 15px;
+			font-size: 1.5rem;
+
+			a {
+				.fa {
+					opacity: 0.3;
+				}
+
+				& + a {
+					margin-left: 10px;
+				}
+
+				&:hover {
+					.fa {
+						opacity: 0.8;	
+					}
+				}
+			}
+		}
+
+		&:hover {
+			box-shadow: 0px 0px 8px #78d4f7;
+
+			.card-icon-overlay .fa {
+				opacity: 0.5;
 			}
 		}
 

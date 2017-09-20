@@ -23,6 +23,20 @@ export default class WishList extends React.Component {
 			})
 		})
 	}
+	deleteWish(wishId) {
+		if (!window.confirm('Are you sure you want to remove this wish?')) {
+			return
+		}
+		this.props.deleteWish(wishId, () => {
+			const index = this.state.wishlist.findIndex((item) => {
+				item.id === wishId
+			})
+			this.state.wishlist.splice(index, 1)
+			this.setState({
+				wishlist: this.state.wishlist
+			})
+		})
+	}
 	render() {
 		const wishlist = this.state.wishlist.slice()
 		if (this.props.editable) {
@@ -35,6 +49,28 @@ export default class WishList extends React.Component {
 		while (wishlist.length) {
 			slicedWishlist.push(wishlist.splice(0, size))
 		}
+		const wishlistDisplay = slicedWishlist.length
+			? slicedWishlist.map((rowWishlist, index) => {
+					return (
+						<div key={index} className="row">
+						{rowWishlist.map((item) => {
+							return (
+								<div key={item.id} className="col-xs-12 col-md-4">
+									<WishListCard 
+										editable={this.props.editable} key={item.id} 
+										saveWish={(wishDetails) => this.saveWish(wishDetails)} 
+										deleteWish={(wishId) => this.deleteWish(wishId)}
+										{...item}
+									>
+									</WishListCard>
+								</div>
+							)
+						})}
+						</div>
+					)
+				})
+			: <div>Waiting for {this.props.name} to make a wish!</div>
+		
 
 		return (
 		<div className="container-fluid">
@@ -44,20 +80,7 @@ export default class WishList extends React.Component {
 				</div>
 			</div>
 			<div>
-				{slicedWishlist.map((rowWishlist, index) => {
-					return (
-						<div key={index} className="row">
-						{rowWishlist.map((item) => {
-							return (
-								<div key={item.id} className="col-xs-12 col-md-4">
-									<WishListCard editable={this.props.editable} key={item.id} saveWish={(wishDetails) => this.saveWish(wishDetails)} {...item}>
-									</WishListCard>
-								</div>
-							)
-						})}
-						</div>
-					)
-				})}
+				{wishlistDisplay}
 			</div>
 		</div>
 		)
