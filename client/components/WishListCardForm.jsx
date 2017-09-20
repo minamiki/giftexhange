@@ -22,8 +22,9 @@ export default class WishListCardForm extends React.Component {
 		if (this.props.id !== 'new') {
 			wishDetails.id = this.props.id
 		}
-		this.props.save(wishDetails)
-		this.props.showDisplay()
+		this.props.save(wishDetails, () => {
+			this.props.showDisplay()
+		})
 	}
 	render() {
 		return (

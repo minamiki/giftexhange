@@ -15,7 +15,7 @@ export default class WishList extends React.Component {
 			})
 		})
 	}
-	saveWish(wishDetails) {
+	saveWish(wishDetails, onSuccessCallback) {
 		this.props.saveWish(wishDetails, (resultWishDetails) => {
 			const wishItem = this.state.wishlist.find((item) => {
 				return item.id === wishDetails.id
@@ -28,6 +28,7 @@ export default class WishList extends React.Component {
 			this.setState({
 				wishlist: this.state.wishlist
 			})
+			onSuccessCallback()
 		})
 	}
 	deleteWish(wishId) {
@@ -65,7 +66,7 @@ export default class WishList extends React.Component {
 								<div key={item.id} className="col-xs-12 col-md-4">
 									<WishListCard 
 										editable={this.props.editable} key={item.id} 
-										saveWish={(wishDetails) => this.saveWish(wishDetails)} 
+										saveWish={(wishDetails, onSuccessCallback) => this.saveWish(wishDetails, onSuccessCallback)} 
 										deleteWish={(wishId) => this.deleteWish(wishId)}
 										{...item}
 									>
