@@ -2,6 +2,7 @@
 import 'bootstrap'
 import 'font-awesome/scss/font-awesome.scss'
 import './scss/index.scss'
+import './scss/wishlist.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import WishList from './components/WishList'
