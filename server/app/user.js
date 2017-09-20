@@ -9,6 +9,6 @@ module.exports = class User extends BaseConnection {
 		return this.query(`${this.selectQuery} WHERE id = ${id}`)
 	}
 	getByName(name) {
-		return this.query(`${this.selectQuery} WHERE name= '${name}'`)
+		return this.query(`${this.selectQuery} WHERE fullName= '${name}'`)
 	}
 }

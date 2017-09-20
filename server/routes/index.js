@@ -9,6 +9,7 @@ module.exports = function (server, connectionPool) {
   const Email = require('../app/email')
   const Wishlist = require('../app/wishlist')
   const WishlistItem = require('../app/wishlistItem')
+  const Result = require('../app/result')
 
   /**
     * Test Endpoint
@@ -154,12 +155,19 @@ module.exports = function (server, connectionPool) {
     })
   })
 
+
+
+  server.get('report', (req, res, next) => {
+      const ResultQuery = new Result(connectionPool)
+      ResultQuery.get().done((response) => {
+          res.send(response)
+      })
+  })
   /**
   * Event Endpoints
   */
   // Create Event
   server.post('event', (req, res, next) => {
-
   })
 
   /**
