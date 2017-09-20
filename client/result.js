@@ -4,6 +4,9 @@ import './scss/index.scss'
 import './scss/result.scss'
 import * as d3 from "d3";
 
+const searchParams = new URLSearchParams(window.location.search); //?anything=123
+const eventId = searchParams.get('eventId')
+
 const width = 960,
     height = 500
 
@@ -13,8 +16,11 @@ const svg = d3.select("#main-content").append("svg")
 
 const color = d3.scaleOrdinal(d3.schemeCategory20)
 
-$.get('api/report/match-list')
+$.get(`api/report/${eventId}/match-list`)
 .done((resp) => {
+	// const index = resp.findIndex((item) => {
+	// 	return item.senderId === 2
+	// })
 	const graph = {
 		nodes: resp.map((item) => {
 			return {
