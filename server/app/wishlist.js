@@ -15,6 +15,7 @@ module.exports = class Wishlist extends BaseConnection {
         sqlInsert += `(${user}, ${eventId}, now()),`
       })
       sqlInsert = sqlInsert.substring(0, sqlInsert.length - 1)
+      this.query(`DELETE FROM wishlist WHERE userId IN(${users.join()}) AND eventId = ${eventId}`)
       return this.query(`INSERT INTO wishlist(userId, eventId, lastUpdate) VALUES${sqlInsert}`)
     }
   }

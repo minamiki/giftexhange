@@ -34,8 +34,8 @@ module.exports = {
               baseImagePath: config.email.asset_base_url,
               senderName: result.senderName,
               receiverName: result.receiverName,
-              receiverWishlistURL: `${config.base_url}/wishlist?id=${result.receiverWishlistId}`,
-              senderWishlistURL: `${config.base_url}/wishlist?id=${result.senderWishlistId}`
+              receiverWishlistURL: `${config.email.client_base_url}/wishlist?id=${result.receiverWishlistId}`,
+              senderWishlistURL: `${config.email.client_base_url}/wishlist?id=${result.senderWishlistId}&userId=${result.senderId}`
             })
           }, function (err, reply) {
             console.log(err && err.stack)

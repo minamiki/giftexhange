@@ -35,8 +35,21 @@ module.exports = function (server, connectionPool) {
   server.get('/exchange/:eventId/generate', (req, res, next) => {
     let eventId = req.params.eventId
     if (eventId) {
+      // generate result
       let GeneratorQuery = new Generator(connectionPool)
       let result = GeneratorQuery.generateResult(eventId, connectionPool)
+
+      // create wishlists
+      // Get list of user ids from the event
+      let EventQuery = new Event(connectionPool)
+      EventQuery.getUsers(eventId).done((result) => {
+        let users = result[0].userIds.split(',').map(Number)
+
+      // Create wishlists
+        let WishlistQuery = new Wishlist(connectionPool)
+        WishlistQuery.create(users, eventId)
+      })
+
       return res.send(result)
     } else {
       return next(new options.errors.InvalidArgumentError('Invalid eventId'))
@@ -48,19 +61,9 @@ module.exports = function (server, connectionPool) {
     let eventId = req.params.eventId
     const WishlistQuery = new Wishlist(connectionPool)
     if (eventId) {
-      // Get list of user ids from the event
-      let EventQuery = new Event(connectionPool)
-      EventQuery.getUsers(eventId).done((result) => {
-        let users = result[0].userIds.split(',').map(Number)
-
-      // Create wishlists
-        let WishlistQuery = new Wishlist(connectionPool)
-        WishlistQuery.create(users, eventId).done((response) => {
-          // Send Emails
-          // Email.process(eventId, res, connectionPool)
-          return res.send('ok')
-        })
-      })
+      // Send Emails
+      Email.process(eventId, connectionPool)
+      return res.send('ok')
     } else {
       return next(new options.errors.InvalidArgumentError('Invalid eventId'))
     }
