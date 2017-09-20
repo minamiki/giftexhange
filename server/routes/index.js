@@ -3,18 +3,27 @@ module.exports = function (server, connectionPool) {
    * Module Dependencies
    */
   const errors = require('restify-errors')
-  const GiftExchange = require('../app/index')({
-    connectionPool, errors
-  })
+
   const Generator = require('../app/generator')
-  const Wishlist = require('../app/wishlist')
+  const Email = require('../app/email')
+  const Wishlist = require('../app/wishlist')(connectionPool)
   const WishlistItem = require('../app/wishlistItem')
 
   /**
     * Test Endpoint
     */
   server.get('/exchange/test', (req, res, next) => {
-    GiftExchange.test(req, res, next)
+    connectionPool.query('SELECT * FROM users', function (error, results, fields) {
+      if (error) {
+        // example of throwing a http error (https://github.com/m9dfukc/node-restify-errors)
+        return next(new errors.InternalServerError('Unable to retrieve users'))
+      }
+
+      results.forEach((user) => {
+        console.log(user.id)
+      })
+      res.send(JSON.parse(JSON.stringify(results)))
+    })
   })
 
   /**
@@ -22,16 +31,29 @@ module.exports = function (server, connectionPool) {
   */
   // Generate sender/reciever pairs and save to db
   server.get('/exchange/:eventId/generate', (req, res, next) => {
-    let GeneratorQuery = new Generator(connectionPool)
-    let result = GeneratorQuery.generateResult(1, connectionPool)
-
-    return res.send(result)
+    let eventId = req.params.eventId
+    if (eventId) {
+      let GeneratorQuery = new Generator(connectionPool)
+      let result = GeneratorQuery.generateResult(eventId, connectionPool)
+      return res.send(result)
+    } else {
+      return next(new options.errors.InvalidArgumentError('Invalid eventId'))
+    }
   })
 
   // send out email
   server.get('/exchange/:eventId/email', (req, res, next) => {
-    if (req.params.eventId) {
-      GiftExchange.email(req.params.eventId, res)
+    let eventId = req.params.eventId
+    if (eventId) {
+      // Create wishlists
+      Wishlist.create(eventId)
+
+      // Send Emails
+      Email.process(eventId, res, connectionPool)
+
+      return res.send('ok')
+    } else {
+      return next(new options.errors.InvalidArgumentError('Invalid eventId'))
     }
   })
 

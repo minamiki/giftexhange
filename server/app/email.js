@@ -9,8 +9,7 @@ const Handlebars = require('handlebars')
 const emailTemplate = Handlebars.compile(fs.readFileSync(path.join(__dirname, '../emailTemplates/template.hbs'), 'utf8'))
 
 module.exports = {
-
-  process (eventId, res, connectionPool) {
+  process (eventId, connectionPool) {
     connectionPool.query(`SELECT
         us.id AS senderId, us.fullName AS senderName, us.email AS senderEmail,
         ur.id AS receiverId, ur.fullName AS receiverName, ur.email AS receiverEmail,
@@ -42,7 +41,6 @@ module.exports = {
           })
         })
       }
-      res.send('ok')
     })
   }
 }
